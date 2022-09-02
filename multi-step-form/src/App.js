@@ -4,7 +4,7 @@ import Multistep from './components/Multistep';
 
 function App() {
   return (
-    <div className="App">
+    <div className="">
       <Multistep />
     </div>
   );

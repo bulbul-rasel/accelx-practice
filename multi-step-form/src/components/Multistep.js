@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 const Multistep = () => {
     const [formStep, setFormStep] = useState(0);
     const { watch, register, formState: { errors, isValid }, handleSubmit } = useForm({ mode: 'all' })
+    var max_step = 3;
 
     const completeButton = () => {
         setFormStep(formStep => formStep + 1)
@@ -37,6 +38,10 @@ const Multistep = () => {
 
     }
 
+    const backPrevious = () => {
+        setFormStep(formStep => formStep - 1)
+    }
+
     const handleForm = (values) => {
         window.alert(JSON.stringify(values, null, 2))
         completeButton();
@@ -59,8 +64,21 @@ const Multistep = () => {
                 </p>
             </div>
             <div className="max-w-xl w-full mt-10 mb-24 rounded-lg shadow-2xl bg-white mx-auto overflow-hidden z-10">
-                <div className="px-16 py-10">
+                <div className="px-16 py-10 mb-2">
                     <form onSubmit={handleSubmit(handleForm)}>
+                        {formStep < max_step && (
+                            <div className='flex items-center'>
+                                {
+                                    formStep > 0 &&
+
+                                    <button type='button' onClick={backPrevious}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 text-gray-400 hover:text-gray-500">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                    </svg>
+                                    </button>
+                                }
+                                <p className='text-sm text-gray-700 ml-4'>{formStep + 1} of {max_step}</p>
+                            </div>
+                        )}
                         {formStep >= 0 && (
                             <section className={formStep === 0 ? 'block' : 'hidden'}>
                                 <h2 className="font-semibold text-3xl mb-8">

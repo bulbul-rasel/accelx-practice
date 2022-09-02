@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 const Multistep = () => {
     const [formStep, setFormStep] = useState(0);
-    const { watch, register, formState: { errors, isValid }, } = useForm({ mode: 'all' })
+    const { watch, register, formState: { errors, isValid }, handleSubmit } = useForm({ mode: 'all' })
 
     const completeButton = () => {
         setFormStep(formStep => formStep + 1)
@@ -17,8 +17,8 @@ const Multistep = () => {
         } else if (formStep === 2) {
             return (<button
                 disabled={!isValid}
-                onClick={completeButton}
-                type="button"
+
+                type="submit"
                 className="mt-6 bg-green-600 text-white rounded px-8 py-6 w-full disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
                 Submit
@@ -35,6 +35,11 @@ const Multistep = () => {
             </button >)
         }
 
+    }
+
+    const handleForm = (values) => {
+        window.alert(JSON.stringify(values, null, 2))
+        completeButton();
     }
     return (
         <div className="min-h-screen bg-green-900 flex flex-col items-start text-gray-900 antialiased relative">
@@ -55,7 +60,7 @@ const Multistep = () => {
             </div>
             <div className="max-w-xl w-full mt-10 mb-24 rounded-lg shadow-2xl bg-white mx-auto overflow-hidden z-10">
                 <div className="px-16 py-10">
-                    <form>
+                    <form onSubmit={handleSubmit(handleForm)}>
                         {formStep >= 0 && (
                             <section className={formStep === 0 ? 'block' : 'hidden'}>
                                 <h2 className="font-semibold text-3xl mb-8">
@@ -156,7 +161,7 @@ const Multistep = () => {
 
                         {renderButton()}
 
-                        <pre>{JSON.stringify(watch(), null, 2)}</pre>
+                        {/* <pre>{JSON.stringify(watch(), null, 2)}</pre> */}
                     </form>
                 </div>
             </div>
